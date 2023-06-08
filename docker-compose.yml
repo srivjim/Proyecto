@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - 80
+    networks:
+      - backend
+  haproxy:
+    image: haproxy:latest
+    ports:
+      - 8080:80
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    networks:
+      - backend
+
+networks:
+  backend:
