@@ -1,19 +1,32 @@
 version: '3'
+ 
 services:
-  web:
-    image: nginx:latest
+  nginx_web_1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     ports:
-      - 80
+      - 8081:80
     networks:
-      - backend
+      - frontend_network
+
+  nginx_web_2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 8082:80
+    networks:
+      - frontend_network
+
   haproxy:
     image: haproxy:latest
     ports:
-      - 8080:80
-    volumes:
-      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - 80:80
     networks:
-      - backend
+      - frontend_network
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
 
 networks:
-  backend:
+  frontend_network:
