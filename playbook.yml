@@ -1,0 +1,7 @@
+- hosts: nodos, localhost
+  become: true
+  roles:
+    - common
+    - docker
+    - docker_compose
+

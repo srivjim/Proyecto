@@ -1,0 +1,17 @@
+- name: Tumbar Docker Compose en Nodo 1
+  command: docker-compose down
+  args:
+    chdir: /root/Desktop/Proyecto
+  when: "'nodo1' in inventory_hostname"
+
+- name: Tumbar Docker Compose en Nodo 2
+  command: docker-compose down
+  args:
+    chdir: /root/Desktop/Proyecto
+  when: "'nodo2' in inventory_hostname"
+
+- name: Tumbar Docker Compose en Localhost
+  command: docker-compose down
+  args:
+    chdir: /home/riverojimenez/Desktop/Proyecto/Haproxy
+  when: "'localhost' in inventory_hostname"

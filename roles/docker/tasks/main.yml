@@ -1,0 +1,9 @@
+---
+- name: Comprobar si Docker Compose está instalado
+  command: docker-compose --version
+  register: docker_compose_check
+  ignore_errors: true
+
+- name: Instalar Docker Compose
+  command: apt-get install docker-compose -y
+  when: docker_compose_check.rc != 0

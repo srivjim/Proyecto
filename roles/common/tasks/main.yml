@@ -1,0 +1,22 @@
+---
+- name: Comprobar si Docker está instalado
+  command: docker --version
+  register: docker_check
+  ignore_errors: true
+
+- name: Instalar Docker
+  command: apt-get install docker.io -y
+  when: docker_check.rc != 0
+
+- name: Añadir usuario al grupo Docker
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+  when: docker_check.rc != 0
+
+- name: Reiniciar servicio Docker
+  service:
+    name: docker
+    state: restarted
+  when: docker_check.rc != 0
+  

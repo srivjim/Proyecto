@@ -1,0 +1,4 @@
+- hosts: nodos, localhost
+  become: true
+  roles:
+    - docker_compose_down

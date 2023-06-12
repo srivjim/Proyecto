@@ -1,0 +1,38 @@
+- name: Clonar repositorio en Nodo 1
+  git:
+    repo: "https://github.com/srivjim/Haproxy-Node1"
+    dest: /root/Desktop/Proyecto
+    force: yes
+  when: "'nodo1' in inventory_hostname"
+
+- name: Clonar repositorio en Nodo 2
+  git:
+    repo: "https://github.com/srivjim/Haproxy-Node2"
+    dest: /root/Desktop/Proyecto
+    force: yes
+  when: "'nodo2' in inventory_hostname"
+
+- name: Clonar repositorio en localhost
+  git:
+    repo: "https://github.com/srivjim/Haproxy-Localhost"
+    dest: /home/riverojimenez/Desktop/Proyecto/Haproxy
+    force: yes
+  when: "'localhost' in inventory_hostname"
+
+- name: Ejecutar Docker Compose en Nodo 1
+  command: docker-compose up -d
+  args:
+    chdir: /root/Desktop/Proyecto
+  when: "'nodo1' in inventory_hostname"
+
+- name: Ejecutar Docker Compose en Nodo 2
+  command: docker-compose up -d
+  args:
+    chdir: /root/Desktop/Proyecto
+  when: "'nodo2' in inventory_hostname"
+
+- name: Ejecutar Docker Compose en Localhost
+  command: docker-compose up -d
+  args:
+    chdir: /home/riverojimenez/Desktop/Proyecto/Haproxy
+  when: "'localhost' in inventory_hostname"
