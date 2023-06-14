@@ -1,0 +1,26 @@
+version: '3'
+volumes:
+  data:
+services:
+  db:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: bolson
+      MYSQL_DATABASE: encuesta
+      MYSQL_USER: root
+      MYSQL_PASSWORD: bolson
+    volumes:
+      - data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: bolson
+    ports:
+      - "8090:80"
+    depends_on:
+      - db

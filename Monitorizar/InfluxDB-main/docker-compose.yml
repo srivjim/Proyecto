@@ -1,11 +1,12 @@
 version: '2'
 
 services:
-
   chronograf:
     image: chronograf:1.8.8-alpine
     ports:
       - "8888:8888"
+    volumes:
+      - chronograf_data:/var/lib/chronograf
 
   influxdb:
     image: influxdb:1.8.3
@@ -13,24 +14,28 @@ services:
       - "8083:8083"
       - "8086:8086"
     volumes:
-      - ./data_influxdb:/var/lib/influx:rw
+      - influxdb_data:/var/lib/influxdb
 
   kapacitor:
     image: kapacitor:1.5.7
     ports:
       - "9092:9092"
     volumes:
-      - ./data_kapacitor:/var/lib/kapacitor:rw
+      - kapacitor_data:/var/lib/kapacitor
       - ./kapacitor.conf:/etc/kapacitor/kapacitor.conf
-      
+
   telegraf:
     image: telegraf:1.16.3
     volumes:
       - ./telegraf.conf:/etc/telegraf/telegraf.conf
+      - /var/run/docker.sock:/var/run/docker.sock
     links:
       - influxdb:influxdb
 
 volumes:
+  chronograf_data:
+  influxdb_data:
+  kapacitor_data:
   data_influxdb:
   data_kapacitor:
   kapacitor.conf:
